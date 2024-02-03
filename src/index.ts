@@ -6,7 +6,11 @@ import {
   logRequestMiddleware,
   logErrorRequestMiddleware,
 } from "#common/middlewares/index.js";
-import { createRestApiServer, connectToDBServer} from "#core/servers/index.js";
+import {
+  createRestApiServer,
+  connectToDBServer,
+  db,
+} from '#core/servers/index.js';
 import { envConstants } from "#core/constants/index.js";
 import { booksApi } from "#pods/book/index.js";
 
@@ -27,7 +31,9 @@ restApiServer.listen(envConstants.PORT, async () => {
     console.log("Running API mock");
   }else{
     await connectToDBServer(envConstants.MONGODB_URI);
+    const books = await db.collection('books').find().toArray();
     console.log("Connected to DB");
+    console.log({books});
   };
   console.log(`Server ready at port ${envConstants.PORT}`);
 });
