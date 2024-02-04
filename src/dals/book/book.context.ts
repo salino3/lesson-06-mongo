@@ -1,5 +1,19 @@
-import {db} from '#core/servers/index.js';
+import {Schema, model} from 'mongoose';
 import {Book} from './book.model.js';
 
-export const getBookContext = () => db?.collection<Book>("books");
+const bookSchema = new Schema<Book>({
+  title: {
+    type: Schema.Types.String,
+    required: true,
+  },
+  releaseDate: {
+    type: Schema.Types.Date,
+    required: true,
+  },
+  author: {
+    type: Schema.Types.String,
+    required: true,
+  },
+});
 
+export const bookContext = model<Book>('Book', bookSchema);
